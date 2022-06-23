@@ -1,9 +1,82 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+<PageTitle>doomsdays</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="upper-container">
 
-Welcome to your new app.
+    <h1>@dateString</h1>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+    @*    <p role="status">Current count: @currentCount</p>
+    *@
+
+
+
+</div>
+
+
+<div class="grid-container">
+    <div class="grid-item"><button class="weekdaybutton" @onclick="IncrementCount">Ma</button></div>
+    <div class="grid-item"><button class="weekdaybutton" @onclick="IncrementCount">Ti</button></div>
+    <div class="grid-item"><button class="weekdaybutton" @onclick="IncrementCount">Ke</button></div>
+    <div class="grid-item"><button class="weekdaybutton" @onclick="IncrementCount">To</button></div>
+    <div class="grid-item"><button class="weekdaybutton" @onclick="IncrementCount">Pe</button></div>
+    <div class="grid-item"><button class="weekdaybutton" @onclick="IncrementCount">La</button></div>
+    <div class="grid-item"></div>
+    <div class="grid-item"><button class="weekdaybutton" @onclick="IncrementCount">Su</button></div>
+    <div class="grid-item"></div>
+</div>
+
+
+
+
+
+
+
+@code {
+    private DateTime date = DateTime.UtcNow;
+    private string dateString;
+
+    private int currentCount = 0;
+    private RandomDateTime r;
+
+    private DateTime minDate = new DateTime(1900, 1, 1);
+    private DateTime maxDate = new DateTime(2099, 1, 1);
+
+    protected override void OnInitialized()
+    {
+        r  = new RandomDateTime(minDate, maxDate);
+
+        date = r.Next();
+        dateString = date.ToString("dd.MM.yyyy");
+
+    }
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+
+    class RandomDateTime
+    {
+        Random Random;
+        int Range;
+        private DateTime MinDate;
+        private DateTime MaxDate;
+
+        public RandomDateTime(DateTime minDate, DateTime maxDate)
+        {
+            MinDate = minDate;
+            MaxDate = maxDate;
+
+
+            Random = new Random();
+            Range = (int)(MaxDate - MinDate).TotalDays;
+        }
+
+        public DateTime Next()
+        {
+            return MinDate.AddDays(Random.Next(Range));
+        }
+    }
+
+}
