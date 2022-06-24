@@ -2,29 +2,41 @@
 
 <PageTitle>doomsdays</PageTitle>
 
-<div class="upper-container">
+<body>
+	<div class="pagebackground" style=@pageColorStyle></div>
 
-    <h1>@dateString</h1>
+	<div class="upper-container">
+		<div style="text-align: center;">
+			<p class="smalltext">@smallString</p>
+			<p class="bigtext">@bigString</p>
+			<p class="smalltext">&nbsp;@smallStringBelow&nbsp;</p>
+		</div>
 
-    @*    <p role="status">Current count: @currentCount</p>
-    *@
+	</div>
+
+
+	<div class="grid-container" hidden="@answered">
+		<div class="grid-item"><button class="weekdaybutton" @onclick="() => Answer(1)">@ButtonText1</button></div>
+		<div class="grid-item"><button class="weekdaybutton" @onclick="() => Answer(2)">@ButtonText2</button></div>
+		<div class="grid-item"><button class="weekdaybutton" @onclick="() => Answer(3)">@ButtonText3</button></div>
+		<div class="grid-item"><button class="weekdaybutton" @onclick="() => Answer(4)">@ButtonText4</button></div>
+		<div class="grid-item"><button class="weekdaybutton" @onclick="() => Answer(5)">@ButtonText5</button></div>
+		<div class="grid-item"><button class="weekdaybutton" @onclick="() => Answer(6)">@ButtonText6</button></div>
+		<div class="grid-item"></div>
+		<div class="grid-item"><button class="weekdaybutton" @onclick="() => Answer(0)">@ButtonText8</button></div>
+		<div class="grid-item"></div>
+	</div>
+
+	<div class="lower-container" hidden="@(!answered)">
+		<button class="nextbutton" @onclick="NextDate">Seuraava</button>
+
+	</div>
+
+</body>
 
 
 
-</div>
 
-
-<div class="grid-container">
-    <div class="grid-item"><button class="weekdaybutton" @onclick="IncrementCount">Ma</button></div>
-    <div class="grid-item"><button class="weekdaybutton" @onclick="IncrementCount">Ti</button></div>
-    <div class="grid-item"><button class="weekdaybutton" @onclick="IncrementCount">Ke</button></div>
-    <div class="grid-item"><button class="weekdaybutton" @onclick="IncrementCount">To</button></div>
-    <div class="grid-item"><button class="weekdaybutton" @onclick="IncrementCount">Pe</button></div>
-    <div class="grid-item"><button class="weekdaybutton" @onclick="IncrementCount">La</button></div>
-    <div class="grid-item"></div>
-    <div class="grid-item"><button class="weekdaybutton" @onclick="IncrementCount">Su</button></div>
-    <div class="grid-item"></div>
-</div>
 
 
 
@@ -33,50 +45,107 @@
 
 
 @code {
-    private DateTime date = DateTime.UtcNow;
-    private string dateString;
-
-    private int currentCount = 0;
-    private RandomDateTime r;
-
-    private DateTime minDate = new DateTime(1900, 1, 1);
-    private DateTime maxDate = new DateTime(2099, 1, 1);
-
-    protected override void OnInitialized()
-    {
-        r  = new RandomDateTime(minDate, maxDate);
-
-        date = r.Next();
-        dateString = date.ToString("dd.MM.yyyy");
-
-    }
-
-    private void IncrementCount()
-    {
-        currentCount++;
-    }
-
-    class RandomDateTime
-    {
-        Random Random;
-        int Range;
-        private DateTime MinDate;
-        private DateTime MaxDate;
-
-        public RandomDateTime(DateTime minDate, DateTime maxDate)
-        {
-            MinDate = minDate;
-            MaxDate = maxDate;
+	private string ButtonText1 = "Ma";
+	private string ButtonText2 = "Ti";
+	private string ButtonText3 = "Ke";
+	private string ButtonText4 = "To";
+	private string ButtonText5 = "Pe";
+	private string ButtonText6 = "La";
+	private string ButtonText7 = "";
+	private string ButtonText8 = "Su";
+	private string ButtonText9 = "";
 
 
-            Random = new Random();
-            Range = (int)(MaxDate - MinDate).TotalDays;
-        }
+	private bool answered = false;
 
-        public DateTime Next()
-        {
-            return MinDate.AddDays(Random.Next(Range));
-        }
-    }
+	private string pageColorStyle = "";
+
+	private DateTime date = DateTime.UtcNow;
+
+	private string smallString = "";
+	private string bigString = "";
+	private string smallStringBelow = "";
+
+	private int currentCount = 0;
+	private RandomDateTime r;
+
+	private DateTime minDate = new DateTime(1900, 1, 1);
+	private DateTime maxDate = new DateTime(2099, 1, 1);
+
+	protected override void OnInitialized()
+	{
+		r = new RandomDateTime(minDate, maxDate);
+		NextDate();
+	}
+
+	private void NextDate()
+	{
+		answered = false;
+		pageColorStyle = "background-color: #F8F8F8;";
+
+		date = r.Next();
+
+		smallString = "Mikä viikonpäivä on?";
+		bigString = date.ToString("dd.MM.yyyy");
+		smallStringBelow = "";
+	}
+
+	private void Answer(int weekday)
+	{
+		answered = true;
+
+		if (weekday == (int)date.DayOfWeek)
+		{
+			pageColorStyle = "background-color: #c0e380;";
+			smallString = date.ToString("Oikein!");
+		}
+		else
+		{
+			pageColorStyle = "background-color: #e48d7e;";
+			smallString = date.ToString("Väärin!");
+		}
+
+
+		bigString = date.ToString("dd.MM.yyyy");
+		smallStringBelow = "on " + MapDayToFinnish(date.DayOfWeek.ToString()).ToLower();
+
+		date = r.Next();
+
+	}
+
+	private string MapDayToFinnish(string day)
+	{
+		if (day == "Monday") return "Maanantai";
+		if (day == "Tuesday") return "Tiistai";
+		if (day == "Wednesday") return "Keskiviikko";
+		if (day == "Thursday") return "Torstai";
+		if (day == "Friday") return "Perjantai";
+		if (day == "Saturday") return "Lauantai";
+		if (day == "Sunday") return "Sunnuntai";
+		return "";
+	}
+
+	class RandomDateTime
+	{
+		Random Random;
+		int Range;
+		private DateTime MinDate;
+		private DateTime MaxDate;
+
+		public RandomDateTime(DateTime minDate, DateTime maxDate)
+		{
+			MinDate = minDate;
+			MaxDate = maxDate;
+
+
+			Random = new Random();
+			Range = (int)(MaxDate - MinDate).TotalDays;
+		}
+
+		public DateTime Next()
+		{
+			return MinDate.AddDays(Random.Next(Range));
+		}
+	}
 
 }

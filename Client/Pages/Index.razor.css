@@ -1,43 +1,81 @@
-﻿h1 {
-    text-align center;
+﻿
+
+.smalltext {
+	font-size: larger;
+}
+
+.bigtext {
+	font-size: xx-large;
 }
 
 
+.pagebackground {
+	height: 100%;
+	width: 100%;
+	position: fixed;
+}
 
+.pagebackgroundwrong {
+	background-color: #e48d7e;
+}
+
+.pagebackgroundcorrect {
+	background-color: #c0e380;
+}
+
+
+button {
+	display: block;
+	width: 100%;
+	height: 100%;
+	border: none;
+	font-size: 25px;
+	cursor: pointer;
+	text-align: center;
+	background-color: transparent;
+	transition-duration: 0.1s;
+}
 
 .weekdaybutton {
-    display: block;
-    width: 100%;
-    height: 100%;
-    border: none;
-    font-size: 25px;
-    cursor: pointer;
-    text-align: center;
-    background-color: white;
-    color: black;
-    transition-duration: 0.1s;
 }
 
-    .weekdaybutton:hover {
-        background-color: #AAAAAA;
-        color: white;
-    }
+	.weekdaybutton:hover {
+		background-color: #333333;
+		color: #F8F8F8;
+	}
+
+.nextbutton {
+}
+
+	.nextbutton:hover {
+		background-color: #F8F8F8;
+	}
 
 
 .grid-container {
-    height: 38.2vh;
-    width: 100%;
-    position: fixed;
-    bottom: 0%;
-    display: grid;
-    grid-template-columns: auto auto auto;
+	height: 38.2vh;
+	width: 100%;
+	position: fixed;
+	bottom: 0%;
+	display: grid;
+	grid-template-columns: auto auto auto;
 }
 
 .upper-container {
-    height: 61.8vh;
-    width: 100%;
-    position: fixed;
-    display: flex;
-    justify-content: center; /* align horizontal */
-    align-items: center; /* align vertical */
+	height: 61.8vh;
+	width: 100%;
+	position: fixed;
+	display: flex;
+	justify-content: center; /* align horizontal */
+	align-items: center; /* align vertical */
+}
+
+.lower-container {
+	height: 38.2vh;
+	width: 100%;
+	position: fixed;
+	bottom: 0%;
+	display: flex;
+	justify-content: center; /* align horizontal */
+	align-items: center; /* align vertical */
 }

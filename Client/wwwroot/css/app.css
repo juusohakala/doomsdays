@@ -1,9 +1,21 @@
-﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+﻿/*@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}*/
+
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap');
+
+body {
+    font-family: 'Rubik Mono One', sans-serif;
+    color: #333333
 }
 
+button {
+    color: #333333
+}
+
+/*
 h1:focus {
     outline: none;
 }
@@ -62,3 +74,4 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+*/
